@@ -126,7 +126,7 @@ apt_cache() {
         case "$PATHNAME" in
 
             # Binary packages.
-            *.deb | *.ddeb) apt_cache_binary "$DIST" "$DISTCACHE" "$PATHNAME" "$COMP" "$PACKAGE" ;;
+            *.deb | *.ddeb | *.udeb) apt_cache_binary "$DIST" "$DISTCACHE" "$PATHNAME" "$COMP" "$PACKAGE" ;;
 
             # Source packages.  The *.dsc file is considered the "entrypoint"
             # and will find the associated *.orig.tar.*, *.diff.*, *.tar.*, or
