@@ -7,83 +7,83 @@ setup() {
 }
 
 @test "freight-add adds package to distro main component" {
-    run freight_add ${FIXTURES}/test_1.0_all.deb apt/example
+    run freight_add "${FIXTURES}"/test_1.0_all.deb apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/test_1.0_all.deb to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/test_1.0_all.deb
+    test -e "${FREIGHT_LIB}"/apt/example/test_1.0_all.deb
 }
 
 @test "freight-add adds package to a component" {
-    freight_add ${FIXTURES}/test_1.0_all.deb apt/example/comp
-    test -e ${FREIGHT_LIB}/apt/example/comp/test_1.0_all.deb
+    freight_add "${FIXTURES}"/test_1.0_all.deb apt/example/comp
+    test -e "${FREIGHT_LIB}"/apt/example/comp/test_1.0_all.deb
 }
 
 @test "freight-add adds package and hard link to multiple components" {
-    freight_add ${FIXTURES}/test_1.0_all.deb apt/example/comp apt/example/another
-    test -e ${FREIGHT_LIB}/apt/example/comp/test_1.0_all.deb
-    test -e ${FREIGHT_LIB}/apt/example/another/test_1.0_all.deb
-    test $(stat -c '%i' ${FREIGHT_LIB}/apt/example/comp/*.deb) -eq $(stat -c '%i' ${FREIGHT_LIB}/apt/example/another/*.deb)
+    freight_add "${FIXTURES}"/test_1.0_all.deb apt/example/comp apt/example/another
+    test -e "${FREIGHT_LIB}"/apt/example/comp/test_1.0_all.deb
+    test -e "${FREIGHT_LIB}"/apt/example/another/test_1.0_all.deb
+    test $(stat -c '%i' "${FREIGHT_LIB}"/apt/example/comp/*.deb) -eq $(stat -c '%i' "${FREIGHT_LIB}"/apt/example/another/*.deb)
 }
 
 @test "freight-add detects duplicate package" {
-    freight_add ${FIXTURES}/test_1.0_all.deb apt/example
-    run freight_add ${FIXTURES}/test_1.0_all.deb apt/example
+    freight_add "${FIXTURES}"/test_1.0_all.deb apt/example
+    run freight_add "${FIXTURES}"/test_1.0_all.deb apt/example
     assert_success
     assert_output "# [freight] apt/example already has ${FIXTURES}/test_1.0_all.deb"
 }
 
 @test "freight-add adds source .dsc files" {
-    run freight_add ${FIXTURES}/source_1.0-1.dsc apt/example
+    run freight_add "${FIXTURES}"/source_1.0-1.dsc apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0-1.dsc to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0-1.dsc
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0-1.dsc
 }
 
 @test "freight-add adds source .tar.gz files" {
-    run freight_add ${FIXTURES}/source_1.0-1.tar.gz apt/example
+    run freight_add "${FIXTURES}"/source_1.0-1.tar.gz apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0-1.tar.gz to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0-1.tar.gz
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0-1.tar.gz
 }
 
 @test "freight-add adds source .tar.bz2 files" {
-    run freight_add ${FIXTURES}/source_1.0-1.tar.bz2 apt/example
+    run freight_add "${FIXTURES}"/source_1.0-1.tar.bz2 apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0-1.tar.bz2 to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0-1.tar.bz2
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0-1.tar.bz2
 }
 
 @test "freight-add adds source .tar.xz files" {
-    run freight_add ${FIXTURES}/source_1.0-1.tar.xz apt/example
+    run freight_add "${FIXTURES}"/source_1.0-1.tar.xz apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0-1.tar.xz to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0-1.tar.xz
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0-1.tar.xz
 }
 
 @test "freight-add adds source .tar.lzma files" {
-    run freight_add ${FIXTURES}/source_1.0-1.tar.lzma apt/example
+    run freight_add "${FIXTURES}"/source_1.0-1.tar.lzma apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0-1.tar.lzma to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0-1.tar.lzma
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0-1.tar.lzma
 }
 
 @test "freight-add adds source .orig.tar.gz files" {
-    run freight_add ${FIXTURES}/source_1.0.orig.tar.gz apt/example
+    run freight_add "${FIXTURES}"/source_1.0.orig.tar.gz apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source_1.0.orig.tar.gz to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source_1.0.orig.tar.gz
+    test -e "${FREIGHT_LIB}"/apt/example/source_1.0.orig.tar.gz
 }
 
 @test "freight-add adds source .git files" {
-    run freight_add ${FIXTURES}/source-git_1.0-1.git apt/example
+    run freight_add "${FIXTURES}"/source-git_1.0-1.git apt/example
     assert_success
     assert_output "# [freight] added ${FIXTURES}/source-git_1.0-1.git to apt/example"
-    test -e ${FREIGHT_LIB}/apt/example/source-git_1.0-1.git
+    test -e "${FREIGHT_LIB}"/apt/example/source-git_1.0-1.git
 }
 
 @test "freight-add handles VARLIB being a symlink" {
-    mv $FREIGHT_LIB ${FREIGHT_LIB}_real
-    ln -s ${FREIGHT_LIB}_real $FREIGHT_LIB
-    freight_add ${FIXTURES}/test_1.0_all.deb apt/example/comp
-    test -e ${FREIGHT_LIB}_real/apt/example/comp/test_1.0_all.deb
+    mv "$FREIGHT_LIB" "${FREIGHT_LIB}"_real
+    ln -s "${FREIGHT_LIB}"_real "$FREIGHT_LIB"
+    freight_add "${FIXTURES}"/test_1.0_all.deb apt/example/comp
+    test -e "${FREIGHT_LIB}"_real/apt/example/comp/test_1.0_all.deb
 }

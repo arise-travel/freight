@@ -4,7 +4,7 @@ TOPDIR=$PWD
 FIXTURES=${TOPDIR}/test/fixtures
 TMPDIR=${TOPDIR}/test/tmp
 
-load ${TMPDIR}/bats-assert/all.bash
+load "${TMPDIR}"/bats-assert/all.bash
 
 FREIGHT_HOME=${TMPDIR}/freight
 FREIGHT_CONFIG=${FREIGHT_HOME}/etc/freight.conf
@@ -15,34 +15,34 @@ export GNUPGHOME=${TMPDIR}/gpg
 
 freight_init() {
     gpg_init
-    rm -rf $FREIGHT_HOME
-    mkdir -p $FREIGHT_CACHE $FREIGHT_LIB
+    rm -rf "$FREIGHT_HOME"
+    mkdir -p "$FREIGHT_CACHE" "$FREIGHT_LIB"
     bin/freight init \
         -g freight@example.com \
-        -c $FREIGHT_CONFIG \
-        --libdir $FREIGHT_LIB \
-        --cachedir $FREIGHT_CACHE \
+        -c "$FREIGHT_CONFIG" \
+        --libdir "$FREIGHT_LIB" \
+        --cachedir "$FREIGHT_CACHE" \
         --archs "i386 amd64" \
         "$@"
 }
 
 freight_add() {
-    bin/freight add -c $FREIGHT_CONFIG "$@"
+    bin/freight add -c "$FREIGHT_CONFIG" "$@"
 }
 
 freight_cache() {
-    bin/freight cache -p "$FIXTURES"/passphrase -c $FREIGHT_CONFIG "$@"
+    bin/freight cache -p "$FIXTURES"/passphrase -c "$FREIGHT_CONFIG" "$@"
 }
 
 freight_cache_nohup() {
-    nohup bin/freight cache  -p "$FIXTURES"/passphrase -c $FREIGHT_CONFIG "$@"
+    nohup bin/freight cache  -p "$FIXTURES"/passphrase -c "$FREIGHT_CONFIG" "$@"
 }
 
 # Generates a GPG key for all tests, once only due to entropy required
 gpg_init() {
-    if [ ! -e $GNUPGHOME ]; then
-        mkdir -p $GNUPGHOME
-        chmod 0700 $GNUPGHOME
+    if [ ! -e "$GNUPGHOME" ]; then
+        mkdir -p "$GNUPGHOME"
+        chmod 0700 "$GNUPGHOME"
         gpg --batch --yes --passphrase-fd 0 --import "$FIXTURES"/first_key.gpg < "$FIXTURES"/passphrase
         gpg --batch --yes --passphrase-fd 0 --import "$FIXTURES"/second_key.gpg < "$FIXTURES"/passphrase
     fi
