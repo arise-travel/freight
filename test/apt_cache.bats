@@ -57,7 +57,7 @@ setup() {
 @test "apt-get fetches package list" {
     check_apt_support
     freight_cache -v
-    echo "deb file://${FREIGHT_CACHE} example main" > "${TMPDIR}"/apt/etc/apt/sources.list
+    echo "deb [signed-by=${TMPDIR}/apt/etc/apt/trusted.gpg] file://${FREIGHT_CACHE} example main" > "${TMPDIR}"/apt/etc/apt/sources.list
     apt-get -c "${FIXTURES}"/apt.conf update
     apt-cache -c "${FIXTURES}"/apt.conf show test
 }

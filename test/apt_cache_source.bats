@@ -44,7 +44,7 @@ setup() {
     freight_add "${FIXTURES}"/source_1.0.orig.tar.gz apt/example
     freight_cache
 
-    echo "deb-src file://${FREIGHT_CACHE} example main" > "${TMPDIR}"/apt/etc/apt/sources.list
+    echo "deb-src [signed-by=${TMPDIR}/apt/etc/apt/trusted.gpg] file://${FREIGHT_CACHE} example main" > "${TMPDIR}"/apt/etc/apt/sources.list
     apt-get -c "${FIXTURES}"/apt.conf update
     apt-cache -c "${FIXTURES}"/apt.conf showsrc source | grep "Package: source"
 }
