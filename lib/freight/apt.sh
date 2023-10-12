@@ -269,7 +269,7 @@ EOF
     echo "Trying to import"
     gpg --verbose --export -a $GPG |
         tee "$VARCACHE/pubkey.gpg" |
-        gpg --verbose --homedir "$TMP/gpg" --import
+        (gpg --verbose --homedir "$TMP/gpg" --import || true)
     echo "Imported"
     
     mv "$TMP/gpg/pubring.gpg" "$VARCACHE/keyring.gpg"
