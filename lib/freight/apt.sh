@@ -266,9 +266,12 @@ EOF
     # new `pubring.kbx` format during an initial `gpg --import`.
     : >"$TMP/gpg/pubring.gpg" && chmod 644 "$TMP/gpg/pubring.gpg"
     # shellcheck disable=SC2086
-    gpg --verbose -q --export -a $GPG |
+    echo "Trying to import"
+    gpg --verbose --export -a $GPG |
         tee "$VARCACHE/pubkey.gpg" |
-        gpg --verbose -q --homedir "$TMP/gpg" --import
+        gpg --verbose --homedir "$TMP/gpg" --import
+    echo "Imported"
+    
     mv "$TMP/gpg/pubring.gpg" "$VARCACHE/keyring.gpg"
 
     # Move the symbolic link for this distro to this build.
